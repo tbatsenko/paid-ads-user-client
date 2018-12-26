@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="src/styles/style.css" />
+  <title>USER client Paid Ads</title>
+</head>
+
+<body>
+
+   <span id="countdowntimer" style="display: none">10 </span>
+  <div id="md-ad" style="display: none; height: 5000px; background: url('https://miro.medium.com/max/1032/1*uqGSGpfTRVKfHYCWEwmKxw.jpeg')">
+  </div>
+
+    <div class="container">
+        <h1 id="header">To start viewing Ads please, provide your node credentials:</h1>
+    </div>
+
+  
+ 
+  <div class="container">
+    <div class="popuptext" id="content"></div>
+    <form class="form" id="myForm">
+      <label for="pubKey">Send me your pubkey:</label>
+      <input id="pubKey" name="pubKey" value="" placeholder="0319ac08cd3902982d708ee374b673234a6a1c0842ffd7e9019db358815cf3f2d6">
+
+      <label for="hostName">Send me your hostName:</label>
+      <input id="hostName" name="hostName" value="" placeholder="localhost:10001">
+
+      <button class="button" type="submit">Send</button>
+
+    </form>
+
+    <form class="form" id="myForm2" style="display: none">
+      <label for="payreq">Send me your payreq:</label>
+      <input id="payreq" name="payreq" value="">
+      <button class="button" type="submit" id="send-payment">Send</button>
+    </form>
+  </div>
+  </div>
+
+
+
+  <script src="dist/bundle.js"></script>
+</body>
+
+</html>

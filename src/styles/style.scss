@@ -1,0 +1,120 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700);
+
+body {
+  font-family: "Roboto";
+  padding: 50px;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+
+  border-bottom: 1px solid #f2f2f2;
+  margin-top: 10px;
+}
+
+li button {
+  margin-left: auto;
+}
+
+.container {
+  margin: 0 auto;
+  display: flex;
+  justify-content: start;
+  height: 500px;
+  width: 800px;
+
+  -webkit-box-shadow: 0px 0px 7px 1px rgba(227, 227, 227, 0.79);
+  -moz-box-shadow: 0px 0px 7px 1px rgba(227, 227, 227, 0.79);
+  box-shadow: 0px 0px 7px 1px rgba(227, 227, 227, 0.79);
+}
+
+.todo-list {
+  padding: 20px;
+}
+
+.calendar-card {
+  padding: 20px;
+  color: white;
+
+  background: #C51162;
+  /* fallback for old browsers */
+}
+
+#calendar {
+  width: 320px;
+  text-align: center;
+}
+.calendar-btn {
+  color: white;
+}
+.btn {
+  width: 40px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 1px solid;
+}
+
+.button-container {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+
+  input {
+    width: 300px;
+    height: 25px;
+    border: none;
+    border-bottom: 1px solid;
+    font-size: 14px;
+  }
+
+  input:hover {
+    border-bottom: 1px solid rebeccapurple;
+    font-size: 14px;
+  }
+
+}
+
+.todo-checkbox {
+  display: inline;
+}
+
+th {
+  padding-right: 10px;
+}
+
+td {
+  width: 40px;
+  height: 40px;
+}
+
+td:hover {
+  cursor: pointer;
+  background-color: rgb(167, 15, 83);
+  border-radius: 50%;
+}
+
+.bg-info {
+  border: 1px solid;
+    border-radius: 50%;
+
+}
+
+.today-date {
+
+}
+
+.todo__completed {
+
+  text-decoration: line-through;
+
+}
