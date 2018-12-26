@@ -6,6 +6,10 @@ const addInvoiceURL = 'http://localhost:8280/api/lnd/addinvoice';
 
 const sendPaymentURL = 'http://localhost:8280/api/lnd/sendpayment';
 
+const pubkey_adv = '034ab0341fffb446ce5b4f28b142eb0557cfdeeb5cdcdc62f0a712b164f768fca5';
+
+const pubkey_site = '025a5f0d9cdf970c8b65ec4a5869a5eb315d9a99aeca07e55139478350e5639ac7';
+
 function timer() {
     document.getElementById("countdowntimer").style.display = "block";
     document.getElementById("md-ad").style.display = "block";
@@ -79,7 +83,7 @@ async function addInvoice(pubKey) {
     let response = await (await fetch(addInvoiceURL, {
         method: 'POST',
         body: JSON.stringify({
-            pubkey: '0319ac08cd3902982d708ee374b673234a6a1c0842ffd7e9019db358815cf3f2d6',
+            pubkey: pubKey,
             value: 1700,
         }), // data can be `string` or {object}!
         headers: {
@@ -114,69 +118,62 @@ async function sendPayment(peyreq) {
 
 
 // Access the form element...
-const form = document.getElementById("myForm");
+
 
 // ...and take over its submit event.
-form.addEventListener("submit", async function (event) {
-    event.preventDefault();
+let flow;
 
-    console.log("BEFORE");
-    const pubkey = document.getElementById("pubKey").value;
-    const hostName = document.getElementById("hostName").value;
+document.getElementById("userButton").onclick = function (e) {
+    document.getElementById('startButtons').style.display = "none";
+    document.getElementById('mainContainerUsr').style.display = "flex";
+    document.getElementById('mainHeader').innerHTML = "To start viewing Ads please, provide your node credentials:";
+    flow = "user";
+};
 
-    console.log(pubkey, hostName);
-    connectPeer(pubkey, hostName)
-        .then((resp) => {
-            console.log('Connect peer resp', resp);
-            fetch(listPeersURL)
-                .then(resp => {
-                    console.log('listPeersURL resp', resp);
+document.getElementById("advButton").onclick = function (e) {
+    document.getElementById('startButtons').style.display = "none";
+    document.getElementById('mainContainerAdv').style.display = "flex";
+    document.getElementById('mainHeader').innerHTML = "To start viewing Ads please, provide your node credentials:";
+    flow = "advertiser";
+};
 
-                    timer();
+const form = document.getElementById("myForm");
+if (flow == 'user') {
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        console.log("BEFORE");
+        const pubkeyUsr = document.getElementById("pubKeyUsr").value;
+        const hostNameUsr = document.getElementById("hostNameUsr").value;
 
-                    if (resp) {
-                        document.getElementById('myForm').style.display = "none";
-                        document.getElementById('myForm').innerHTML = "";
-                        document.getElementById('content').innerHTML = "success, connected & loaded peers";
-                        openChannel(pubkey)
-                            .then(resp => {
-                                console.log('Open channel resp', resp);
-                                document.getElementById('content').innerHTML = "success, opened channel";
-                                document.getElementById('content').innerHTML = "Please, create a payment request here: ";
+        console.log(pubkeyUsr, hostNameUsr);
+        connectPeer(pubkeyUsr, hostNameUsr)
+            .then((resp) => {
+                console.log('Connect peer resp', resp);
+                fetch(listPeersURL)
+                    .then(resp => {
+                        console.log('listPeersURL resp', resp);
 
-                                document.getElementById('myForm2').style.display = "block";
+                        timer();
 
-                                const paymentRequest = document.getElementById("send-payment");
+                        if (resp) {
+                            document.getElementById('myFormUsr').style.display = "none";
+                            document.getElementById('myFormUsr').innerHTML = "";
+                            document.getElementById('contentUsr').innerHTML = "success, connected & loaded peers";
+                            openChannel(pubkeyUsr)
+                                .then(resp => {
+                                    console.log('Open channel resp', resp);
+                                    document.getElementById('contentUsr').innerHTML = "success, opened channel";
+                                    document.getElementById('contentUsr').innerHTML = "Please, create a payment request here: ";
 
-                                paymentRequest.addEventListener("click", async function (event) {
-                                    event.preventDefault();
-                                    const peyreq = document.getElementById("payreq").value;
+                                    document.getElementById('myForm2').style.display = "block";
 
-                                    sendPayment(peyreq)
-                                        .then(resp => {
-
-                                            console.log('sendPayment resp', resp);
-                                        })
-                                        .catch((e) => {
-                                            console.error(e);
-                                        });
-                                });
-                            })
-                            .catch((e) => {
-                                console.error(e);
-                                try {
-                                    document.getElementById('content').innerHTML = "success, opened channel";
-                                    document.getElementById('content').innerHTML = "Please, create a payment request here: ";
-                                    document.getElementById('myForm').style.display = "none";
-                                    document.getElementById('myForm2').style.display = "flex";
                                     const paymentRequest = document.getElementById("send-payment");
 
-                                    paymentRequest.addEventListener("submit", async function (event) {
+                                    paymentRequest.addEventListener("click", async function (event) {
                                         event.preventDefault();
                                         const peyreq = document.getElementById("payreq").value;
 
                                         sendPayment(peyreq)
-
                                             .then(resp => {
 
                                                 console.log('sendPayment resp', resp);
@@ -185,21 +182,142 @@ form.addEventListener("submit", async function (event) {
                                                 console.error(e);
                                             });
                                     });
-
-
-                                } catch (e) {
+                                })
+                                .catch((e) => {
                                     console.error(e);
-                                }
-                            });
+                                    try {
+                                        document.getElementById('contentUsr').innerHTML = "success, opened channel";
+                                        document.getElementById('contentUsr').innerHTML = "Please, create a payment request here: ";
+                                        document.getElementById('myFormUsr').style.display = "none";
+                                        document.getElementById('myForm2').style.display = "flex";
+                                        const paymentRequest = document.getElementById("send-payment");
 
-                    }
-                })
-                .catch((e) => {
-                    console.error(e);
-                });;
-        })
-        .catch((e) => {
-            console.error(e);
-        });
-    // console.log(respPeers);
-});
+                                        paymentRequest.addEventListener("submit", async function (event) {
+                                            event.preventDefault();
+                                            const peyreq = document.getElementById("payreq").value;
+
+                                            sendPayment(peyreq)
+
+                                                .then(resp => {
+
+                                                    console.log('sendPayment resp', resp);
+                                                })
+                                                .catch((e) => {
+                                                    console.error(e);
+                                                });
+                                        });
+
+
+                                    } catch (e) {
+                                        console.error(e);
+                                    }
+                                });
+
+                        }
+                    })
+                    .catch((e) => {
+                        console.error(e);
+                    });
+                ;
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+        // console.log(respPeers);
+    });
+} else {
+
+     form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        console.log("BEFORE");
+        const pubkeyAdv = document.getElementById("pubKeyAdv").value;
+        const hostNameAdv = document.getElementById("hostNameAdv").value;
+
+        console.log(pubkeyAdv, hostNameAdv);
+        connectPeer(pubkeyAdv, hostNameAdv)
+            .then((resp) => {
+                console.log('Connect peer resp', resp);
+                fetch(listPeersURL)
+                    .then(resp => {
+                        console.log('listPeersURL resp', resp);
+
+
+
+                        if (resp) {
+                            // document.getElementById('myFormAdv').style.display = "none";
+                            // document.getElementById('myFormAdv').innerHTML = "";
+                            // document.getElementById('contentAdv').innerHTML = "success, connected & loaded peers";
+                            openChannel(pubkeyAdv)
+                                .then(resp => {
+                                    console.log('Open channel resp', resp);
+                                    // document.getElementById('contentAdv').innerHTML = "success, opened channel";
+                                    // document.getElementById('contentAdv').innerHTML = "Please, create a payment request here: ";
+                                    //
+                                    // document.getElementById('myForm2').style.display = "block";
+
+
+
+
+                                    event.preventDefault();
+
+
+                                    addInvoice(pubkey_site)
+                                        .then(resp => {
+                                            console.log('add invoice resp', resp);
+                                            sendPayment(resp['payment_request'])
+                                            .then (resp => {
+                                                console.log('sendPayment resp', resp)
+                                                closeChannel();
+                                            })
+
+                                        })
+                                        .catch((e) => {
+                                            console.error(e);
+                                        });
+
+                                })
+                                .catch((e) => {
+                                    console.error(e);
+                                    try {
+                                        document.getElementById('contentAdv').innerHTML = "success, opened channel";
+                                        document.getElementById('contentAdv').innerHTML = "Please, create a payment request here: ";
+                                        document.getElementById('myFormAdv').style.display = "none";
+                                        document.getElementById('myForm2').style.display = "flex";
+                                        const paymentRequest = document.getElementById("send-payment");
+
+                                        paymentRequest.addEventListener("submit", async function (event) {
+                                            event.preventDefault();
+                                            const peyreq = document.getElementById("payreq").value;
+
+                                            sendPayment(peyreq)
+
+                                                .then(resp => {
+
+                                                    console.log('sendPayment resp', resp);
+                                                })
+                                                .catch((e) => {
+                                                    console.error(e);
+                                                });
+                                        });
+
+
+                                    } catch (e) {
+                                        console.error(e);
+                                    }
+                                });
+
+                        }
+                    })
+                    .catch((e) => {
+                        console.error(e);
+                    });
+                ;
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+        // console.log(respPeers);
+    });
+
+
+}
