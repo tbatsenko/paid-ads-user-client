@@ -15,20 +15,29 @@
   <div id="md-ad" style="display: none; height: 5000px; background: url('https://miro.medium.com/max/1032/1*uqGSGpfTRVKfHYCWEwmKxw.jpeg')">
   </div>
 
-    <div class="container">
-        <h1 id="header">To start viewing Ads please, provide your node credentials:</h1>
+    <div class="container" >
+        <h1 id="mainHeader">What do you want to do?</h1>
     </div>
+   <div id="startButtons" style="position: fixed; left:50%; top: 50%; margin-top: -50px; margin-left: -200px ">
+     <button id="userButton" class="button" >
+       I'd like to view ads
+     </button>
+     <button id="advButton" class="button" >
+       I'd like to post ads
+     </button>
+
+   </div>
 
   
  
-  <div class="container">
-    <div class="popuptext" id="content"></div>
-    <form class="form" id="myForm">
-      <label for="pubKey">Send me your pubkey:</label>
-      <input id="pubKey" name="pubKey" value="" placeholder="0319ac08cd3902982d708ee374b673234a6a1c0842ffd7e9019db358815cf3f2d6">
+  <div class="container" id="mainContainerUsr" style="display: none">
+    <div class="popuptext" id="contentUsr"></div>
+    <form class="form" id="myFormUsr" >
+      <label for="pubKeyUsr">Send me your pubkey:</label>
+      <input id="pubKeyUsr" name="pubKey" value="" placeholder="0319ac08cd3902982d708ee374b673234a6a1c0842ffd7e9019db358815cf3f2d6">
 
-      <label for="hostName">Send me your hostName:</label>
-      <input id="hostName" name="hostName" value="" placeholder="localhost:10001">
+      <label for="hostNameUsr">Send me your hostName:</label>
+      <input id="hostNameUsr" name="hostNameUsr" value="" placeholder="localhost:10001">
 
       <button class="button" type="submit">Send</button>
 
@@ -40,7 +49,29 @@
       <button class="button" type="submit" id="send-payment">Send</button>
     </form>
   </div>
+
+   <div class="container" id="mainContainerAdv" style="display: none;">
+    <div class="popuptext" id="contentAdv"></div>
+    <form class="form" id="myFormAdv" >
+      <label for="pubKeyAdv">Send me your pubkey:</label>
+      <input id="pubKeyAdv" name="pubKeyAdv" value="" placeholder="0319ac08cd3902982d708ee374b673234a6a1c0842ffd7e9019db358815cf3f2d6">
+
+      <label for="hostNameAdv">Send me your hostName:</label>
+      <input id="hostNameAdv" name="hostNameAdv" value="" placeholder="localhost:10001">
+
+      <label for="moneySum" >Tell me how much money you want to invest in ads </label>
+      <input id="moneySum" name="moneySum" value="" placeholder="20000">
+
+      <label for="adLin" >Send me the link to your ad:</label>
+      <input id="adLin" name="adLin" value="" placeholder="http/">
+
+
+      <button class="button" type="submit">Send</button>
+
+    </form>
+
   </div>
+
 
 
 
