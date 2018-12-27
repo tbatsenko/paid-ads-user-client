@@ -22,8 +22,8 @@ function timer() {
             clearInterval(downloadTimer);
             document.getElementById("md-ad").style.display = "none";
             document.getElementById("countdowntimer").style.display = "none";
-            document.getElementById("header").innerHTML = "Congrats! Generate payment request with LND and provide me with it to get MONEY!";
-            
+            document.getElementById("mainHeader").innerHTML = "Congrats! Generate payment request with LND and provide me with it to get MONEY!";
+
         }
     }, 1000);
 }
@@ -123,22 +123,13 @@ async function sendPayment(peyreq) {
 // ...and take over its submit event.
 let flow;
 
-document.getElementById("userButton").onclick = function (e) {
+
+document.getElementById("userButton").addEventListener('click', (event) => {
     document.getElementById('startButtons').style.display = "none";
     document.getElementById('mainContainerUsr').style.display = "flex";
     document.getElementById('mainHeader').innerHTML = "To start viewing Ads please, provide your node credentials:";
     flow = "user";
-};
-
-document.getElementById("advButton").onclick = function (e) {
-    document.getElementById('startButtons').style.display = "none";
-    document.getElementById('mainContainerAdv').style.display = "flex";
-    document.getElementById('mainHeader').innerHTML = "To start viewing Ads please, provide your node credentials:";
-    flow = "advertiser";
-};
-
-const form = document.getElementById("myForm");
-if (flow == 'user') {
+    const form = document.getElementById("myFormUsr");
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
         console.log("BEFORE");
@@ -167,21 +158,7 @@ if (flow == 'user') {
 
                                     document.getElementById('myForm2').style.display = "block";
 
-                                            console.log('sendPayment resp', resp);
-                                            document.getElementById("header").innerHTML = "Success! Money is yours, check the wallet!"
-                                        })
-                                        .catch((e) => {
-                                            console.error(e);
-                                        });
-                                });
-                            })
-                            .catch((e) => {
-                                console.error(e);
-                                try {
-                                    document.getElementById('content').innerHTML = "success, opened channel";
-                                    document.getElementById('content').innerHTML = "Please, create a payment request here: ";
-                                    document.getElementById('myForm').style.display = "none";
-                                    document.getElementById('myForm2').style.display = "flex";
+
                                     const paymentRequest = document.getElementById("send-payment");
 
                                     paymentRequest.addEventListener("click", async function (event) {
@@ -190,59 +167,47 @@ if (flow == 'user') {
 
                                         sendPayment(peyreq)
                                             .then(resp => {
-
+                                                document.getElementById("mainHeader").innerHTML = "Success! Money is yours, check the wallet!";
                                                 console.log('sendPayment resp', resp);
+                                                document.getElementById("mainHeader").innerHTML = "Success! Money is yours, check the wallet!";
+                                
                                             })
                                             .catch((e) => {
                                                 console.error(e);
                                             });
                                     });
-                                })
+
+                                    })
                                 .catch((e) => {
                                     console.error(e);
-                                    try {
-                                        document.getElementById('contentUsr').innerHTML = "success, opened channel";
-                                        document.getElementById('contentUsr').innerHTML = "Please, create a payment request here: ";
-                                        document.getElementById('myFormUsr').style.display = "none";
-                                        document.getElementById('myForm2').style.display = "flex";
-                                        const paymentRequest = document.getElementById("send-payment");
-
-                                        paymentRequest.addEventListener("submit", async function (event) {
-                                            event.preventDefault();
-                                            const peyreq = document.getElementById("payreq").value;
-
-                                            sendPayment(peyreq)
-
-                                                .then(resp => {
-
-                                                    console.log('sendPayment resp', resp);
-                                                })
-                                                .catch((e) => {
-                                                    console.error(e);
-                                                });
-                                        });
-
-
-                                    } catch (e) {
-                                        console.error(e);
-                                    }
                                 });
-
                         }
                     })
                     .catch((e) => {
                         console.error(e);
+                    })
+                    .catch((e) => {
+                        console.error(e);
                     });
-                ;
             })
             .catch((e) => {
                 console.error(e);
             });
         // console.log(respPeers);
     });
-} else {
 
-     form.addEventListener("submit", async function (event) {
+})
+
+
+document.getElementById("advButton").addEventListener('click', function (e) {
+    document.getElementById('startButtons').style.display = "none";
+    document.getElementById('mainContainerAdv').style.display = "flex";
+    document.getElementById('mainHeader').innerHTML = "To start showing Ads please, provide your node credentials:";
+    flow = "advertiser";
+
+    const form = document.getElementById('myFormAdv');
+
+    form.addEventListener("submit", async function (event) {
         event.preventDefault();
         console.log("BEFORE");
         const pubkeyAdv = document.getElementById("pubKeyAdv").value;
@@ -280,10 +245,10 @@ if (flow == 'user') {
                                         .then(resp => {
                                             console.log('add invoice resp', resp);
                                             sendPayment(resp['payment_request'])
-                                            .then (resp => {
-                                                console.log('sendPayment resp', resp)
-                                                closeChannel();
-                                            })
+                                                .then(resp => {
+                                                    console.log('sendPayment resp', resp)
+                                                    closeChannel();
+                                                })
 
                                         })
                                         .catch((e) => {
@@ -325,14 +290,11 @@ if (flow == 'user') {
                     })
                     .catch((e) => {
                         console.error(e);
-                    });
-                ;
+                    });;
             })
             .catch((e) => {
                 console.error(e);
             });
         // console.log(respPeers);
-    });
-
-
-}
+    })
+})
