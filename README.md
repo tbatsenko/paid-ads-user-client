@@ -4,4 +4,4 @@
 
 1) npm install
 2) npm run-script build
-3) npm start
+3) npm start# paid-ads-web-lnd
