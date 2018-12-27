@@ -156,6 +156,7 @@ form.addEventListener("submit", async function (event) {
                                         .then(resp => {
 
                                             console.log('sendPayment resp', resp);
+                                            document.getElementById("header").innerHTML = "Success! Money is yours, check the wallet!"
                                         })
                                         .catch((e) => {
                                             console.error(e);

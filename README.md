@@ -1,7 +1,6 @@
 # paid-ads-user-client
 
-
-To run use: 
+### To run use: 
 
 1) npm install
 2) npm run-script build
